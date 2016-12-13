@@ -34,7 +34,7 @@ class EventRow extends React.Component {
             <View style={styles.container}>
                 <Text
                     style={styles.label}
-                >{this.props.event.description}</Text>
+                >{this.props.event.price}</Text>
             </View>
         );
     }

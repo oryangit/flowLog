@@ -64,6 +64,10 @@ class CreateLogForm extends Component {
         this.props.onAdd(this.state);
     }
 
+    onGoToListViewPressed() {
+        this.props.onGoToListView(this.state);
+    }
+
     render() {
         return (
           <View style={styles.container}>
@@ -84,6 +88,15 @@ class CreateLogForm extends Component {
                     Add
                 </Text>
             </TouchableHighlight>
+
+            <TouchableHighlight
+                onPress={this.onGoToListViewPressed.bind(this)}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>
+                    Show logs
+                </Text>
+            </TouchableHighlight>
           </View>
         );
     }
@@ -91,6 +104,7 @@ class CreateLogForm extends Component {
 
 CreateLogForm.propTypes = {
     onAdd: React.PropTypes.func.isRequired,
+    onGoToListView: React.PropTypes.func.isRequired,
 };
 
 export default CreateLogForm;
