@@ -42,7 +42,7 @@ class EventRow extends React.Component {
 
 EventRow.propTypes = {
     event: React.PropTypes.shape({
-        description: React.PropTypes.string.isRequired,
+        price: React.PropTypes.number.isRequired,
     }).isRequired,
 };
 

@@ -51,17 +51,28 @@ class CreateLogForm extends Component {
         super(props, context);
 
         this.state = {
-            price: 0,
+            price: '',
         };
     }
 
-    onChange(value) {
-        console.log('on change ', value);
-        this.state.price = value;
+    onChange(text) {
+        console.log('on change ', text);
+        let newText = '';
+        const numbers = '012345678';
+
+        for (let i = 0; i < text.length; i++) {
+            if (numbers.indexOf(text[i]) > -1) {
+                newText = newText + text[i];
+            }
+        }
+
+        this.setState({ price: newText });
     }
 
     onAddPressed() {
-        this.props.onAdd(this.state);
+        this.props.onAdd({
+            price: parseInt(this.state.price, 10),
+        });
     }
 
     onGoToListViewPressed() {
@@ -76,8 +87,10 @@ class CreateLogForm extends Component {
             <TextInput
                 keyboardType={'numeric'}
                 onChangeText={this.onChange.bind(this)}
+                onSubmitEditing={() => this.onAddPressed()}
                 placeholder="Enter the price.."
                 style={styles.input}
+                value={this.state.price}
             />
 
             <TouchableHighlight
