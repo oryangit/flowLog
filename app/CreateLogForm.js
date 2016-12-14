@@ -80,10 +80,7 @@ class CreateLogForm extends Component {
             return;
         }
 
-        this.props.onAdd({
-            price: parseInt(this.state.price, 10),
-        });
-
+        this.props.onAdd(parseInt(this.state.price, 10));
         this.setState({ price: '' });
     }
 

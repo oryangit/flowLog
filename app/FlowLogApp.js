@@ -7,6 +7,7 @@ import {
 import EventsList from './EventsList';
 import CreateLogForm from './CreateLogForm';
 import NavigationBar from 'react-native-navbar';
+import store from './EventsStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,21 +19,17 @@ const styles = StyleSheet.create({
 export default class FlowLogApp extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            events: [
-                {
-                    price: 41,
-                },
-                {
-                    price: 19,
-                },
-            ],
-        };
+
+        store.subscribe(() => {
+            this.setState(store.getState()); // eslint-disable-line react/no-set-state
+        });
     }
 
-    onAdd(event) {
-        this.state.events.push(event);
-        this.setState({ events: this.state.events });
+    onAdd(price) {
+        store.dispatch({
+            type: 'ADD_EVENT',
+            price,
+        });
     }
 
     onGoToListView() {
