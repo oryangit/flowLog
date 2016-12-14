@@ -3,15 +3,29 @@ import {
   StyleSheet,
   View,
   ListView,
+  TouchableHighlight,
+  Text,
+  ScrollView,
 } from 'react-native';
 import EventRow from './EventRow';
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 40,
+        paddingTop: 20,
         backgroundColor: '#F7F7F7',
         flex: 1,
         justifyContent: 'flex-start',
+    },
+    button: {
+        height: 45,
+        alignSelf: 'stretch',
+        backgroundColor: '#d0d0d0',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 10,
+        marginRight: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
@@ -28,6 +42,10 @@ class EventsList extends React.Component {
         };
     }
 
+    onClose() {
+        this.props.onClose();
+    }
+
     renderRow(event) {
         return (
             <EventRow event={event} />
@@ -37,11 +55,21 @@ class EventsList extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    key={this.props.events}
-                    renderRow={this.renderRow.bind(this)}
-                />
+                <ScrollView>
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        key={this.props.events}
+                        renderRow={this.renderRow.bind(this)}
+                    />
+                 </ScrollView>
+                <TouchableHighlight
+                    onPress={this.onClose.bind(this)}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>
+                        Close
+                    </Text>
+                </TouchableHighlight>
             </View>
         );
     }
@@ -50,6 +78,7 @@ class EventsList extends React.Component {
 EventsList.propTypes = {
     events: React.PropTypes
             .arrayOf(React.PropTypes.object).isRequired,
+    onClose: React.PropTypes.func.isRequired,
 };
 
 export default EventsList;

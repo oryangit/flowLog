@@ -41,12 +41,17 @@ export default class FlowLogApp extends React.Component {
         });
     }
 
+    onClose() {
+        this.nav.pop(0);
+    }
+
     renderScene(route, nav) {
         switch (route.name) {
         case 'eventListView':
             return (
                 <EventsList
                     events={this.state.events}
+                    onClose={this.onClose.bind(this)}
                 />
             );
         default:
@@ -64,11 +69,11 @@ export default class FlowLogApp extends React.Component {
             <View style={styles.container}>
                 <NavigationBar
                     tintColor={'#05A5D1'}
-                    leftButton={{ title: 'Back', tintColor: '#f0f0f0' }}
                     title={{ title: 'FLOW LOG' }}
                 />
                 <Navigator
-                    initialRoute={{ name: 'logView', index: 0 }}
+                    configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
+                    initialRoute={{ name: 'formView', index: 0 }}
                     ref={((nav) => {
                         this.nav = nav;
                     })}

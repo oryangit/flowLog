@@ -15,19 +15,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F7F7F7',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
     input: {
         borderWidth: 1,
-        backgroundColor: '#D7D7D7',
+        backgroundColor: '#F7F7F7',
         height: 50,
         marginLeft: 10,
         marginRight: 10,
         padding: 15,
         borderRadius: 3,
+    },
+    buttonsContainer: {
+        alignSelf: 'stretch',
+        marginTop: 70,
     },
     buttonText: {
         fontSize: 18,
@@ -44,6 +43,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    showLogsButton: {
+        backgroundColor: '#d0d0d0',
+    },
+    showLogsButtonText: {
+        color: '#000',
+    },
 });
 
 class CreateLogForm extends Component {
@@ -58,7 +63,7 @@ class CreateLogForm extends Component {
     onChange(text) {
         console.log('on change ', text);
         let newText = '';
-        const numbers = '012345678';
+        const numbers = '0123456789';
 
         for (let i = 0; i < text.length; i++) {
             if (numbers.indexOf(text[i]) > -1) {
@@ -73,6 +78,8 @@ class CreateLogForm extends Component {
         this.props.onAdd({
             price: parseInt(this.state.price, 10),
         });
+
+        this.setState({ price: '' });
     }
 
     onGoToListViewPressed() {
@@ -82,34 +89,34 @@ class CreateLogForm extends Component {
     render() {
         return (
           <View style={styles.container}>
-            <Text style={styles.welcome}>FLOW LOG</Text>
-
             <TextInput
                 keyboardType={'numeric'}
                 onChangeText={this.onChange.bind(this)}
                 onSubmitEditing={() => this.onAddPressed()}
-                placeholder="Enter the price.."
+                placeholder="The price goes here.."
                 style={styles.input}
                 value={this.state.price}
             />
 
-            <TouchableHighlight
-                onPress={this.onAddPressed.bind(this)}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>
-                    Add
-                </Text>
-            </TouchableHighlight>
+            <View style={styles.buttonsContainer}>
+                <TouchableHighlight
+                    onPress={this.onAddPressed.bind(this)}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>
+                        Add
+                    </Text>
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                onPress={this.onGoToListViewPressed.bind(this)}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>
-                    Show logs
-                </Text>
-            </TouchableHighlight>
+                <TouchableHighlight
+                    onPress={this.onGoToListViewPressed.bind(this)}
+                    style={[styles.button, styles.showLogsButton]}
+                >
+                    <Text style={[styles.buttonText, styles.showLogsButtonText]}>
+                        Show logs
+                    </Text>
+                </TouchableHighlight>
+            </View>
           </View>
         );
     }
