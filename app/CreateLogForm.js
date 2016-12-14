@@ -75,6 +75,11 @@ class CreateLogForm extends Component {
     }
 
     onAddPressed() {
+        // validation
+        if (!this.state.price || this.state.price === '') {
+            return;
+        }
+
         this.props.onAdd({
             price: parseInt(this.state.price, 10),
         });
