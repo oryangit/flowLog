@@ -54,34 +54,20 @@ const styles = StyleSheet.create({
 class CreateLogForm extends Component {
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            price: '',
-        };
     }
 
     onChange(text) {
-        console.log('on change ', text);
-        let newText = '';
-        const numbers = '0123456789';
-
-        for (let i = 0; i < text.length; i++) {
-            if (numbers.indexOf(text[i]) > -1) {
-                newText = newText + text[i];
-            }
-        }
-
-        this.setState({ price: newText });
+        this.props.onTextChange(text);
     }
 
     onAddPressed() {
         // validation
-        if (!this.state.price || this.state.price === '') {
+        if (!this.props.formLogTextInput || this.props.formLogTextInput === '' || this.props.formLogTextInput === '0') {
             return;
         }
 
-        this.props.onAdd(parseInt(this.state.price, 10));
-        this.setState({ price: '' });
+        this.props.onAdd(parseInt(this.props.formLogTextInput, 10));
+        this.onChange('');
     }
 
     onGoToListViewPressed() {
@@ -97,7 +83,7 @@ class CreateLogForm extends Component {
                 onSubmitEditing={() => this.onAddPressed()}
                 placeholder="The price goes here.."
                 style={styles.input}
-                value={this.state.price}
+                value={this.props.formLogTextInput}
             />
 
             <View style={styles.buttonsContainer}>
@@ -125,8 +111,10 @@ class CreateLogForm extends Component {
 }
 
 CreateLogForm.propTypes = {
+    formLogTextInput: React.PropTypes.string,
     onAdd: React.PropTypes.func.isRequired,
     onGoToListView: React.PropTypes.func.isRequired,
+    onTextChange: React.PropTypes.func.isRequired,
 };
 
 export default CreateLogForm;

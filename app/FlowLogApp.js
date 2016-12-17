@@ -20,6 +20,7 @@ export default class FlowLogApp extends React.Component {
     constructor(props, context) {
         super(props, context);
 
+        this.state = store.getState();
         store.subscribe(() => {
             this.setState(store.getState()); // eslint-disable-line react/no-set-state
         });
@@ -35,6 +36,13 @@ export default class FlowLogApp extends React.Component {
     onGoToListView() {
         this.nav.push({
             name: 'eventListView',
+        });
+    }
+
+    onLogFormTextChange(text) {
+        store.dispatch({
+            type: 'LOG_FORM_TEXT_CHANGE',
+            text,
         });
     }
 
@@ -54,8 +62,10 @@ export default class FlowLogApp extends React.Component {
         default:
             return (
                 <CreateLogForm
+                    formLogTextInput={this.state.formLogTextInput}
                     onAdd={this.onAdd.bind(this)}
                     onGoToListView={this.onGoToListView.bind(this)}
+                    onTextChange={this.onLogFormTextChange.bind(this)}
                 />
             );
         }

@@ -16,6 +16,21 @@ function eventsStore(state = defaultState, action) {
                 },
             ]),
         });
+    case 'LOG_FORM_TEXT_CHANGE':
+        const text = action.text;
+        console.log('on change ', text);
+        let newText = '';
+        const numbers = '0123456789';
+
+        for (let i = 0; i < text.length; i++) {
+            if (numbers.indexOf(text[i]) > -1) {
+                newText = newText + text[i];
+            }
+        }
+
+        return Object.assign({}, state, {
+            formLogTextInput: newText,
+        });
     default:
         return state;
     }
