@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     },
 });
 
+const getPosition = (options) => new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject, options)
+);
+
 export default class FlowLogApp extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -27,10 +31,21 @@ export default class FlowLogApp extends React.Component {
     }
 
     onAdd(price) {
-        store.dispatch({
-            type: 'ADD_EVENT',
-            price,
-        });
+        getPosition({ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 })
+            .then((initialPosition) => {
+                const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&rankby=distance&location=${initialPosition.coords.latitude},${initialPosition.coords.longitude}`;
+                console.log('url', url);
+                fetch(url)
+                    .then(response => response.json())
+                    .then(json => {
+                        store.dispatch({
+                            type: 'ADD_EVENT',
+                            price,
+                            initialPosition,
+                            place: json.results[0],
+                        });
+                    });
+            });
     }
 
     onGoToListView() {

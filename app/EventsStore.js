@@ -1,9 +1,11 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import createLogger from 'redux-logger';
 
+const loggerMiddleware = createLogger();
 const defaultState = {
-    events: [
-        { price: 1 },
-    ],
+    events: [],
+    formLogTextInput: '',
 };
 
 function eventsStore(state = defaultState, action) {
@@ -13,9 +15,12 @@ function eventsStore(state = defaultState, action) {
             events: state.events.concat([
                 {
                     price: action.price,
+                    place: action.place,
+                    initialPosition: action.initialPosition,
                 },
             ]),
         });
+
     case 'LOG_FORM_TEXT_CHANGE':
         const text = action.text;
         console.log('on change ', text);
@@ -36,4 +41,10 @@ function eventsStore(state = defaultState, action) {
     }
 }
 
-export default createStore(eventsStore);
+export default createStore(
+    eventsStore,
+    applyMiddleware(
+        thunkMiddleware,
+        loggerMiddleware
+    )
+);
